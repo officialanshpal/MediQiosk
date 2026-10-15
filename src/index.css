@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-900 text-slate-100 font-sans;
+  }
+}
+
+/* Custom kiosk UI styles for high contrast & tablet touch targets */
+.kiosk-btn {
+  @apply py-4 px-6 rounded-2xl font-bold text-xl shadow-lg transition-all duration-150 transform active:scale-95 flex items-center justify-center gap-3 cursor-pointer;
+}
+
+.kiosk-chip {
+  @apply py-4 px-6 rounded-xl font-semibold text-lg border-2 transition-all cursor-pointer flex items-center gap-3 shadow-md;
+}

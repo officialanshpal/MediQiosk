@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediKiosk - Smart OPD Triage System (SIH 2026)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-animation { animation: pulse-ring 2s infinite ease-in-out; }
+    .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans h-full flex flex-col min-h-screen antialiased selection:bg-teal-500 selection:text-white">
+
+  <!-- TOP HEADER & VIEW SWITCHER -->
+  <header class="bg-slate-900/90 border-b border-slate-800 px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-500 to-cyan-400 flex items-center justify-center font-bold text-slate-950 text-xl shadow-lg shadow-teal-500/20">
+        +
+      </div>
+      <div>
+        <h1 class="font-bold text-lg leading-none tracking-tight flex items-center gap-2">
+          MediKiosk <span class="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 font-medium border border-teal-500/30">SIH 2026 Core App</span>
+        </h1>
+        <p class="text-xs text-slate-400">AI-Powered Multilingual OPD Triage & Kiosk Gateway</p>
+      </div>
+    </div>
+
+    <!-- View Mode Switcher -->
+    <div class="bg-slate-950 p-1 rounded-xl border border-slate-800 flex items-center gap-1">
+      <button id="btnKioskMode" onclick="switchView('kiosk')" class="px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-200 bg-teal-500 text-slate-950 shadow-md">
+        🖥️ Patient Kiosk View
+      </button>
+      <button id="btnDoctorMode" onclick="switchView('doctor')" class="px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all duration-200">
+        🩺 Doctor EHR Dashboard
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="flex-1 p-6 max-w-7xl mx-auto w-full flex flex-col">
+
+    <!-- ==================== VIEW 1: PATIENT KIOSK MODE ==================== -->
+    <div id="viewKiosk" class="flex-1 flex flex-col gap-6">
+      
+      <!-- Kiosk Frame Header Bar -->
+      <div class="flex items-center justify-between bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-md">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-xs font-medium text-emerald-400">Kiosk K-104 Active (AI OPD Gateway)</span>
+          </div>
+          <span class="text-slate-600">|</span>
+          <span class="text-xs text-slate-400">Hospital: AIIMS New Delhi - Central OPD</span>
+        </div>
+        <!-- Language Selector -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-medium">Bhasha (Language):</span>
+          <select id="langSelect" class="bg-slate-800 text-xs font-medium text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 outline-none focus:border-teal-500">
+            <option value="hi" selected>हिंदी (Hindi)</option>
+            <option value="bho">भोजपुरी (Bhojpuri)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Kiosk Interactive Steps Layout -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1">
+
+        <!-- Left Column: Kiosk Steps & Features -->
+        <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between gap-6">
+          <div>
+            <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-4">Patient Workflow</h3>
+            <div class="space-y-4">
+              <!-- Step 1 Nav -->
+              <div id="stepNav1" class="flex items-center gap-3 p-3 rounded-xl bg-teal-500/10 border border-teal-500/40 text-teal-300">
+                <div class="w-7 h-7 rounded-full bg-teal-500 text-slate-950 font-bold text-xs flex items-center justify-center">1</div>
+                <div>
+                  <div class="text-xs font-bold">ABHA Identification</div>
+                  <div class="text-[10px] text-teal-400/80">Scan QR / ABHA ID / Biometric</div>
+                </div>
+              </div>
+
+              <!-- Step 2 Nav -->
+              <div id="stepNav2" class="flex items-center gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800 text-slate-400">
+                <div class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 font-bold text-xs flex items-center justify-center">2</div>
+                <div>
+                  <div class="text-xs font-semibold">Empathy Voice Triage</div>
+                  <div class="text-[10px] text-slate-500">Dialect ASR & Symptom Intake</div>
+                </div>
+              </div>
+
+              <!-- Step 3 Nav -->
+              <div id="stepNav3" class="flex items-center gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800 text-slate-400">
+                <div class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 font-bold text-xs flex items-center justify-center">3</div>
+                <div>
+                  <div class="text-xs font-semibold">Document & OCR Scanner</div>
+                  <div class="text-[10px] text-slate-500">Reports & Conflict Detection</div>
+                </div>
+              </div>
+
+              <!-- Step 4 Nav -->
+              <div id="stepNav4" class="flex items-center gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800 text-slate-400">
+                <div class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 font-bold text-xs flex items-center justify-center">4</div>
+                <div>
+                  <div class="text-xs font-semibold">Queue Ticket Generation</div>
+                  <div class="text-[10px] text-slate-500">Severity Tier & OPD Token</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature Spotlight Card -->
+          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-400 space-y-2">
+            <div class="flex items-center gap-2 text-teal-400 font-semibold">
+              <span>🌟 Unique Feature USP:</span>
+            </div>
+            <p class="text-[11px] leading-relaxed">
+              <strong>Empathy-Aware Tone Sensing & Local Dialect Conversion:</strong> MediKiosk detects emotional distress in speech and converts local idioms (e.g. <em>"sar me meethi meethi dard"</em>) into precise clinical terms.
+            </p>
+          </div>
+        </div>
+
+        <!-- Center & Right Columns: Interactive Content Panels -->
+        <div class="md:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between shadow-xl">
+
+          <!-- STEP 1: ABHA AUTHENTICATION -->
+          <div id="step1Content" class="space-y-6">
+            <div>
+              <h2 class="text-xl font-bold text-slate-100 mb-1">Step 1: Patient Authentication</h2>
+              <p class="text-xs text-slate-400">Scan ABHA Card, QR code, or use fingerprint sensor on the kiosk.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <!-- QR Scan Option -->
+              <div onclick="simulateAbhaLogin('91-8492-3849-1029')" class="p-5 rounded-2xl bg-slate-950 border border-teal-500/40 hover:border-teal-400 cursor-pointer transition-all group flex flex-col items-center text-center space-y-3">
+                <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                  📲
+                </div>
+                <div>
+                  <div class="text-sm font-bold text-slate-200">ABHA QR Scan</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Tap to simulate Ayushman Bharat Card Scan</div>
+                </div>
+              </div>
+
+              <!-- Biometric Fingerprint -->
+              <div onclick="simulateAbhaLogin('91-7731-9021-4412')" class="p-5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-slate-700 cursor-pointer transition-all group flex flex-col items-center text-center space-y-3">
+                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                  👆
+                </div>
+                <div>
+                  <div class="text-sm font-bold text-slate-200">Biometric Sensor</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Fingerprint matching via Aadhaar / ABHA</div>
+                </div>
+              </div>
+
+              <!-- Manual Entry -->
+              <div onclick="simulateAbhaLogin('91-4402-1192-8821')" class="p-5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-slate-700 cursor-pointer transition-all group flex flex-col items-center text-center space-y-3">
+                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                  🔢
+                </div>
+                <div>
+                  <div class="text-sm font-bold text-slate-200">Mobile / ABHA No.</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Enter 14-digit ABHA ID or Mobile</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Patient Profile Card (Appears on selecting auth) -->
+            <div id="patientInfoCard" class="hidden p-4 rounded-xl bg-teal-950/40 border border-teal-500/30 flex items-center justify-between">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-teal-500/20 border border-teal-500/40 flex items-center justify-center text-lg font-bold text-teal-300">
+                  RM
+                </div>
+                <div>
+                  <div class="text-sm font-bold text-slate-100" id="patientName">Rameshwar Mahto</div>
+                  <div class="text-xs text-slate-400" id="patientMeta">ABHA: 91-8492-3849-1029 | Age: 52 | Male | Village: Chhapra, Bihar</div>
+                </div>
+              </div>
+              <span class="text-xs font-semibold px-3 py-1 bg-teal-500/20 text-teal-300 rounded-full border border-teal-500/30">Verified ✓</span>
+            </div>
+          </div>
+
+          <!-- STEP 2: VOICE TRIAGE -->
+          <div id="step2Content" class="hidden space-y-6">
+            <div>
+              <h2 class="text-xl font-bold text-slate-100 mb-1">Step 2: Voice-Based AI Symptom Triage</h2>
+              <p class="text-xs text-slate-400">Speak naturally in your native dialect. AI adjusts language and tone automatically.</p>
+            </div>
+
+            <!-- Mic Interaction Box -->
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 flex flex-col items-center text-center space-y-4">
+              <div id="micButton" onclick="toggleVoiceRecording()" class="w-20 h-20 rounded-full bg-gradient-to-tr from-teal-600 to-cyan-500 flex items-center justify-center text-3xl cursor-pointer shadow-xl shadow-teal-500/20 hover:scale-105 transition-all relative">
+                🎤
+                <div id="micPulse" class="hidden absolute inset-0 rounded-full bg-teal-400 pulse-animation -z-10"></div>
+              </div>
+              <div id="micStatusText" class="text-xs font-medium text-slate-300">
+                Tap microphone button to start speaking...
+              </div>
+
+              <!-- Speech Transcript & Medical Translation -->
+              <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 text-left mt-2">
+                <!-- Raw Dialect -->
+                <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                  <div class="text-[10px] font-bold uppercase tracking-wider text-amber-400 mb-1">🗣️ Raw Spoken Audio (Bhojpuri Dialect):</div>
+                  <p id="rawAudioText" class="text-xs text-slate-300 italic">"3 din se sar me meethi meethi dard baa, aankhi ke peeche jalan hot baa aur chakkar aavat baa."</p>
+                </div>
+                <!-- Medical Translation -->
+                <div class="p-4 rounded-xl bg-slate-900 border border-teal-500/30">
+                  <div class="text-[10px] font-bold uppercase tracking-wider text-teal-400 mb-1">🤖 AI Medical Translation (NLP):</div>
+                  <p id="translatedClinicalText" class="text-xs text-slate-200 font-medium">Subacute frontal tension headache (Duration: 3 days) with retro-orbital burning sensation & transient vertigo.</p>
+                </div>
+              </div>
+
+              <!-- Empathy Indicator -->
+              <div class="w-full bg-slate-900/90 border border-slate-800 p-3 rounded-xl flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-medium">Empathy Engine Analysis:</span>
+                <div class="flex items-center gap-3">
+                  <span class="text-xs text-amber-300 font-medium">Stress Level: Moderate (Anxious Speech Pattern)</span>
+                  <span class="text-xs px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">Action: Soft Audio Prompts Enabled</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: DOCUMENT OCR & CONFLICT SCANNER -->
+          <div id="step3Content" class="hidden space-y-6">
+            <div>
+              <h2 class="text-xl font-bold text-slate-100 mb-1">Step 3: Document Upload & AI Conflict Detection</h2>
+              <p class="text-xs text-slate-400">Scan previous prescriptions, lab reports, or discharge summaries using the integrated kiosk scanner.</p>
+            </div>
+
+            <!-- Upload Dropzone -->
+            <div class="border-2 border-dashed border-slate-700 hover:border-teal-500/50 bg-slate-950 rounded-2xl p-6 text-center space-y-3 cursor-pointer transition-colors" onclick="simulateDocScan()">
+              <div class="text-3xl">📄</div>
+              <div class="text-xs font-semibold text-slate-200">Tap to Simulate Scanning Medical Documents</div>
+              <div class="text-[10px] text-slate-500">Supports PDF, JPEG, Printed Prescriptions & Lab Slips</div>
+            </div>
+
+            <!-- Scanned Reports List & Alert -->
+            <div id="scannedDocContainer" class="hidden space-y-3">
+              <h4 class="text-xs font-bold text-slate-300">Scanned Documents Processed (OCR Active):</h4>
+              
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                  <span class="text-lg">📑</span>
+                  <div>
+                    <div class="font-semibold text-slate-200">Apollo Diagnostics Lab (15 days ago)</div>
+                    <div class="text-[10px] text-slate-400">Fasting Blood Sugar: <span class="text-amber-400 font-bold">186 mg/dL</span> (High / Diabetic)</div>
+                  </div>
+                </div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">OCR Scanned</span>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                  <span class="text-lg">📑</span>
+                  <div>
+                    <div class="font-semibold text-slate-200">City Hospital Health Report (3 days ago)</div>
+                    <div class="text-[10px] text-slate-400">Fasting Blood Sugar: <span class="text-emerald-400 font-bold">92 mg/dL</span> (Normal)</div>
+                  </div>
+                </div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">OCR Scanned</span>
+              </div>
+
+              <!-- AI CONFLICT ALERT -->
+              <div class="p-4 rounded-xl bg-amber-950/40 border border-amber-500/40 flex items-start gap-3">
+                <span class="text-xl">⚠️</span>
+                <div class="text-xs space-y-1">
+                  <div class="font-bold text-amber-300">AI Document Conflict Flag Detected!</div>
+                  <p class="text-slate-300 text-[11px]">
+                    Contradictory Glycemic readings detected between Apollo Lab (186 mg/dL) and City Hospital (92 mg/dL) within 12 days. Automatically flagged for attending physician review.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4: QUEUE TICKET GENERATION -->
+          <div id="step4Content" class="hidden space-y-6">
+            <div>
+              <h2 class="text-xl font-bold text-slate-100 mb-1">Step 4: Ticket & Priority Queue Generation</h2>
+              <p class="text-xs text-slate-400">Your AI clinical triage summary is ready and transmitted to Room 12 OPD Doctor.</p>
+            </div>
+
+            <!-- Token Card -->
+            <div class="bg-gradient-to-br from-slate-950 to-slate-900 border border-teal-500/40 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+              <div class="space-y-3">
+                <div class="inline-block px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold text-xs border border-amber-500/30">
+                  🟡 Triage Priority: YELLOW TIER (Priority OPD)
+                </div>
+                <div>
+                  <div class="text-3xl font-black text-teal-400 tracking-tight" id="tokenDisplay">TOKEN #OPD-204</div>
+                  <div class="text-xs text-slate-400 mt-1">Patient: Rameshwar Mahto (Male, 52)</div>
+                </div>
+                <div class="text-xs text-slate-300 space-y-1">
+                  <div><strong>Assigned OPD:</strong> Room 12 (General Medicine - Dr. S. Sharma)</div>
+                  <div><strong>Estimated Wait Time:</strong> ~14 Minutes (2 patients ahead)</div>
+                </div>
+              </div>
+
+              <!-- Ticket Print Button -->
+              <div class="flex flex-col items-center gap-3 bg-slate-900 p-4 rounded-xl border border-slate-800">
+                <div class="w-24 h-24 bg-white p-2 rounded-lg flex items-center justify-center text-slate-950 font-mono text-[10px] text-center font-bold">
+                  [ QR TICKET CODE ]
+                </div>
+                <button onclick="alert('Printing Slip from MediKiosk Thermal Unit...')" class="px-4 py-2 bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-bold rounded-lg transition-all shadow-lg shadow-teal-500/20">
+                  🖨️ Print Ticket Slip
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Step Controls -->
+          <div class="flex items-center justify-between pt-6 border-t border-slate-800 mt-6">
+            <button id="btnPrev" onclick="changeStep(-1)" class="px-4 py-2 rounded-lg border border-slate-700 text-xs font-semibold text-slate-300 hover:bg-slate-800 disabled:opacity-50" disabled>
+              ← Previous Step
+            </button>
+            <button id="btnNext" onclick="changeStep(1)" class="px-5 py-2 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-bold shadow-lg shadow-teal-500/20 transition-all">
+              Next Step →
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 2: DOCTOR EHR DASHBOARD ==================== -->
+    <div id="viewDoctor" class="hidden flex-1 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- Left Column: OPD Queue -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col gap-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-slate-200">OPD Patient Queue (Room 12)</h3>
+          <span class="text-xs px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 font-semibold">3 Waiting</span>
+        </div>
+
+        <div class="space-y-3 flex-1 overflow-y-auto pr-1" id="doctorQueueList">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Right Columns: Doctor Clinical Decision Panel -->
+      <div class="md:col-span-2 space-y-6">
+
+        <!-- Patient Info & Trust Score Header -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex items-center justify-between">
+          <div>
+            <div class="flex items-center gap-3">
+              <h2 class="text-lg font-bold text-slate-100" id="docPatientName">Rameshwar Mahto</h2>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-800 text-slate-300" id="docPatientMeta">Male, 52 Yrs</span>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">ABHA Verified</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Visited Kiosk K-104 at 09:42 AM | Language: Bhojpuri → Translated</p>
+          </div>
+
+          <!-- Trust Score Badge -->
+          <div class="flex items-center gap-3 bg-slate-950 px-4 py-2 rounded-xl border border-slate-800">
+            <div class="text-right">
+              <div class="text-[10px] text-slate-400 uppercase font-bold">AI Clinical Trust Score</div>
+              <div class="text-xs text-emerald-400 font-bold" id="docTrustScore">🟢 94% High Confidence</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Clinical Summary & Cross-Visit Memory -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- AI Triage Summary Card -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <h4 class="text-xs font-bold text-teal-400 uppercase tracking-wider flex items-center gap-2">
+                🤖 AI Triage Summary
+              </h4>
+              <span class="text-[10px] text-slate-500">MediKiosk Voice Engine</span>
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside leading-relaxed" id="docSummaryList">
+              <li><strong>Chief Complaint:</strong> Frontal tension headache & retro-orbital burning for 3 days.</li>
+              <li><strong>Associated Symptoms:</strong> Transient vertigo upon standing.</li>
+              <li><strong>Emotional State:</strong> Mild-to-moderate speech anxiety detected during kiosk audio.</li>
+            </ul>
+          </div>
+
+          <!-- Cross-Visit Memory Card -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+                🧠 Cross-Visit Pattern Memory
+              </h4>
+              <span class="text-[10px] text-amber-400 font-semibold">3 Visits Found</span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-2">
+              <p class="text-[11px] text-slate-400 italic">
+                "Patient has reported similar retro-orbital headaches during OPD visits in June and August 2025. Recurrent pattern detected."
+              </p>
+              <div class="p-2 rounded bg-amber-950/40 border border-amber-500/30 text-[11px] text-amber-300">
+                💡 Suggested Action: Check Ophthalmic pressure & secondary BP recording.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Document Conflict Alert Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+          <h4 class="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
+            🚨 Document Conflict & Discrepancy Detector
+          </h4>
+          <div class="p-3 rounded-xl bg-slate-950 border border-rose-500/30 text-xs text-slate-300 space-y-1">
+            <div class="font-bold text-rose-300">Conflicting Glycemic Values:</div>
+            <p class="text-[11px] text-slate-400">
+              Apollo Lab (15 days ago): <strong>186 mg/dL (High)</strong> vs City Hospital (3 days ago): <strong>92 mg/dL (Normal)</strong>. Possible recent medication change or lab variance.
+            </p>
+          </div>
+        </div>
+
+        <!-- Doctor Action Buttons -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <button onclick="alert('Calling Patient #OPD-204 into Room 12...')" class="px-4 py-2 bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-bold rounded-xl transition-all shadow-lg shadow-teal-500/20">
+              ✓ Call Patient into Cabin
+            </button>
+            <button class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700">
+              📋 Open Full EHR File
+            </button>
+          </div>
+          <button class="px-4 py-2 bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 text-xs font-semibold rounded-xl border border-rose-500/30">
+            ⚠️ Order Emergency Stat Triage
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

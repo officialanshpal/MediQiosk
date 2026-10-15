@@ -1,0 +1,45 @@
+{
+  "name": "medikiosk-sih",
+  "version": "1.0.0",
+  "description": "MediKiosk — AI-Powered Clinical History & Document Digitization Kiosk",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "server": "node server/server.js",
+    "client": "vite",
+    "build": "vite build",
+    "dev": "concurrently \"node server/server.js\" \"vite\""
+  },
+  "keywords": [
+    "medikiosk",
+    "sih2026",
+    "opd",
+    "kiosk",
+    "abha",
+    "ocr",
+    "speech-recognition",
+    "triage",
+    "ayush"
+  ],
+  "author": "MediKiosk Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "lucide-react": "^0.378.0",
+    "tesseract.js": "^5.0.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.19",
+    "concurrently": "^8.2.2",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "vite": "^5.2.0"
+  }
+}

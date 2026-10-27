@@ -6,15 +6,15 @@ const API_BASE = '/api';
 
 class ApiClient {
   constructor() {
-    this.sessionId = localStorage.getItem('medikiosk_sessionId') || null;
+    this.sessionId = localStorage.getItem('mediQiosk_sessionId') || null;
   }
 
   setSessionId(id) {
     this.sessionId = id;
     if (id) {
-      localStorage.setItem('medikiosk_sessionId', id);
+      localStorage.setItem('mediQiosk_sessionId', id);
     } else {
-      localStorage.removeItem('medikiosk_sessionId');
+      localStorage.removeItem('mediQiosk_sessionId');
     }
   }
 

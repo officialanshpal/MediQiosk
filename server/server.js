@@ -32,7 +32,7 @@ app.get('*', (req, res) => {
   if (!req.path.startsWith('/api')) {
     res.sendFile(path.join(__dirname, '../dist/index.html'), (err) => {
       if (err) {
-        res.status(200).send('MediKiosk API Server running. Frontend static build will appear here when built.');
+        res.status(200).send('MediQiosk API Server running. Frontend static build will appear here when built.');
       }
     });
   }
@@ -44,7 +44,7 @@ app.use(errorFilter);
 // Start Server & Background Cron Scheduler
 app.listen(PORT, () => {
   console.log(`====================================================`);
-  console.log(`🚀 MediKiosk SIH Server active on http://localhost:${PORT}`);
+  console.log(`🚀 MediQiosk SIH Server active on http://localhost:${PORT}`);
   console.log(`====================================================`);
   
   // Launch Background Scheduler

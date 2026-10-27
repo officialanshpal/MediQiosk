@@ -4,15 +4,55 @@
 
 @layer base {
   body {
-    @apply bg-slate-900 text-slate-100 font-sans;
+    @apply bg-slate-100 text-slate-800 font-sans antialiased;
+  }
+
+  * {
+    box-sizing: border-box;
   }
 }
 
-/* Custom kiosk UI styles for high contrast & tablet touch targets */
+.app-shell {
+  background: #f8fafc;
+}
+
 .kiosk-btn {
-  @apply py-4 px-6 rounded-2xl font-bold text-xl shadow-lg transition-all duration-150 transform active:scale-95 flex items-center justify-center gap-3 cursor-pointer;
+  @apply py-3 px-5 rounded-xl font-semibold text-base flex items-center justify-center gap-2 cursor-pointer transition-all duration-150 active:scale-[0.98];
 }
 
 .kiosk-chip {
-  @apply py-4 px-6 rounded-xl font-semibold text-lg border-2 transition-all cursor-pointer flex items-center gap-3 shadow-md;
+  @apply py-3 px-4 rounded-lg font-medium text-base border border-slate-200 transition-all cursor-pointer flex items-center gap-2;
+}
+
+button,
+input,
+textarea,
+select {
+  transition: all 150ms ease;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid rgba(14, 165, 233, 0.7);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e2e8f0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

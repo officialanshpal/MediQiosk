@@ -1,4 +1,4 @@
-// MediKiosk Client Application Logic
+// MediQiosk Client Application Logic
 
 let currentStep = 1;
 let patientQueue = [];

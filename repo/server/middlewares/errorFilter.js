@@ -3,7 +3,7 @@ export const errorFilter = (err, req, res, next) => {
   console.error('[UNHANDLED EXCEPTION FILTER]:', err);
 
   const statusCode = err.statusCode || 500;
-  const message = err.message || 'Internal Server Error in MediKiosk Backend';
+  const message = err.message || 'Internal Server Error in MediQiosk Backend';
 
   res.status(statusCode).json({
     success: false,

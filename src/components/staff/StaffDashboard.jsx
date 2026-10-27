@@ -99,6 +99,27 @@ export const StaffDashboard = () => {
     }
   ];
 
+  const metrics = [
+    {
+      label: 'Queue Load',
+      value: dashboardData.queueCount || 0,
+      detail: 'Patients waiting',
+      tone: 'bg-blue-500/10 text-blue-300 border-blue-500/30'
+    },
+    {
+      label: 'Urgent Cases',
+      value: dashboardData.urgentAlerts?.length || 0,
+      detail: 'Requires immediate attention',
+      tone: 'bg-rose-500/10 text-rose-300 border-rose-500/30'
+    },
+    {
+      label: 'Avg Wait',
+      value: dashboardData.sessions?.length ? '14 min' : '0 min',
+      detail: 'Current OPD estimate',
+      tone: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
+    }
+  ];
+
   return (
     <div className="max-w-6xl mx-auto p-4 md:p-8 animate-fadeIn">
       <CommonCard
@@ -114,7 +135,16 @@ export const StaffDashboard = () => {
           </button>
         }
       >
-        {/* Urgent Red Flag Alert Cards Header */}
+        <div className="mb-8 grid gap-4 md:grid-cols-3">
+          {metrics.map((metric) => (
+            <div key={metric.label} className={`rounded-2xl border p-4 ${metric.tone}`}>
+              <p className="text-xs uppercase tracking-[0.2em] opacity-80">{metric.label}</p>
+              <p className="mt-3 text-3xl font-black text-white">{metric.value}</p>
+              <p className="mt-1 text-sm opacity-80">{metric.detail}</p>
+            </div>
+          ))}
+        </div>
+
         {dashboardData.urgentAlerts && dashboardData.urgentAlerts.length > 0 ? (
           <div className="mb-8 space-y-4">
             <h3 className="text-2xl font-black text-rose-400 flex items-center gap-2">
@@ -154,7 +184,6 @@ export const StaffDashboard = () => {
           </div>
         )}
 
-        {/* Active Patient Queue Table */}
         <div>
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-2xl font-black text-white flex items-center gap-2">

@@ -27,33 +27,47 @@ export const speakText = (text, lang = 'Hindi', onEndCallback = null) => {
     return null;
   }
 
-  // Cancel any ongoing speech
-  window.speechSynthesis.cancel();
+  const speakWithPreparedVoices = () => {
+    const langTag = resolveLangTag(lang);
+    const utterance = new SpeechSynthesisUtterance(text);
 
-  const langTag = resolveLangTag(lang);
-  const utterance = new SpeechSynthesisUtterance(text);
-  
-  utterance.lang = langTag;
-  utterance.rate = 0.88; // Slightly slower pace for Indian kiosk readability
-  utterance.pitch = 1.0;
+    utterance.lang = langTag;
+    utterance.rate = 0.88;
+    utterance.pitch = 1.0;
 
-  // Attempt to select a voice matching the target language
+    const availableVoices = window.speechSynthesis.getVoices();
+    const directMatch = availableVoices.find(v => v.lang.toLowerCase() === langTag.toLowerCase());
+    const fallbackMatch = availableVoices.find(v => v.lang.toLowerCase().startsWith(langTag.slice(0, 2).toLowerCase()));
+    const defaultVoice = directMatch || fallbackMatch || availableVoices[0];
+
+    if (defaultVoice) {
+      utterance.voice = defaultVoice;
+    }
+
+    if (onEndCallback) {
+      utterance.onend = onEndCallback;
+      utterance.onerror = (e) => {
+        console.warn('[TTS Error]', e);
+        onEndCallback();
+      };
+    }
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+    return utterance;
+  };
+
   const availableVoices = window.speechSynthesis.getVoices();
-  const matchingVoice = availableVoices.find(v => v.lang === langTag || v.lang.startsWith(langTag.slice(0, 2)));
-  if (matchingVoice) {
-    utterance.voice = matchingVoice;
-  }
-
-  if (onEndCallback) {
-    utterance.onend = onEndCallback;
-    utterance.onerror = (e) => {
-      console.warn('[TTS Error]', e);
-      onEndCallback();
+  if (availableVoices.length === 0 && window.speechSynthesis.onvoiceschanged !== undefined) {
+    const onVoicesReady = () => {
+      window.speechSynthesis.removeEventListener('voiceschanged', onVoicesReady);
+      speakWithPreparedVoices();
     };
+    window.speechSynthesis.addEventListener('voiceschanged', onVoicesReady, { once: true });
+    return null;
   }
 
-  window.speechSynthesis.speak(utterance);
-  return utterance;
+  return speakWithPreparedVoices();
 };
 
 export const stopSpeech = () => {

@@ -8,38 +8,38 @@ export const StepProgress = ({ currentStepIndex }) => {
   const t = (key) => getTranslation(selectedLanguage, key);
 
   const steps = [
-    { label: t('stepLanguage'), icon: <Globe className="w-5 h-5" /> },
-    { label: t('stepIdentify'), icon: <UserCheck className="w-5 h-5" /> },
-    { label: t('stepConsent'), icon: <ShieldAlert className="w-5 h-5" /> },
-    { label: t('stepConverse'), icon: <MessageSquare className="w-5 h-5" /> },
-    { label: t('stepScan'), icon: <Camera className="w-5 h-5" /> },
-    { label: t('stepConfirm'), icon: <CheckCircle className="w-5 h-5" /> }
+    { label: t('stepLanguage'), icon: <Globe className="w-4 h-4" /> },
+    { label: t('stepIdentify'), icon: <UserCheck className="w-4 h-4" /> },
+    { label: t('stepConsent'), icon: <ShieldAlert className="w-4 h-4" /> },
+    { label: t('stepConverse'), icon: <MessageSquare className="w-4 h-4" /> },
+    { label: t('stepScan'), icon: <Camera className="w-4 h-4" /> },
+    { label: t('stepConfirm'), icon: <CheckCircle className="w-4 h-4" /> }
   ];
 
   return (
-    <div className="bg-slate-900/80 border-b border-slate-800 py-3 px-4 overflow-x-auto">
-      <div className="max-w-4xl mx-auto flex items-center justify-between min-w-[600px] gap-2">
+    <div className="border-b border-slate-200 bg-white px-4 py-3">
+      <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 min-w-[560px]">
         {steps.map((step, idx) => {
           const isDone = idx < currentStepIndex;
           const isCurrent = idx === currentStepIndex;
 
           return (
             <React.Fragment key={idx}>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 min-w-0">
                 <div
-                  className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm transition-all ${
+                  className={`flex h-8 w-8 items-center justify-center rounded-full border text-xs ${
                     isCurrent
-                      ? 'bg-blue-600 text-white ring-4 ring-blue-500/30 font-extrabold scale-110'
+                      ? 'bg-sky-600 text-white border-sky-600'
                       : isDone
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-slate-800 text-slate-500'
+                      ? 'bg-emerald-100 text-emerald-700 border-emerald-200'
+                      : 'bg-slate-100 text-slate-400 border-slate-200'
                   }`}
                 >
                   {step.icon}
                 </div>
                 <span
-                  className={`text-xs md:text-sm font-semibold tracking-wide ${
-                    isCurrent ? 'text-blue-400 font-bold' : isDone ? 'text-emerald-400' : 'text-slate-500'
+                  className={`text-[11px] md:text-xs font-medium whitespace-nowrap ${
+                    isCurrent ? 'text-sky-700' : isDone ? 'text-emerald-700' : 'text-slate-500'
                   }`}
                 >
                   {step.label}
@@ -48,9 +48,7 @@ export const StepProgress = ({ currentStepIndex }) => {
 
               {idx < steps.length - 1 && (
                 <div
-                  className={`flex-1 h-1 rounded-full transition-colors ${
-                    idx < currentStepIndex ? 'bg-emerald-600' : 'bg-slate-800'
-                  }`}
+                  className={`h-px flex-1 ${idx < currentStepIndex ? 'bg-emerald-300' : 'bg-slate-200'}`}
                 />
               )}
             </React.Fragment>

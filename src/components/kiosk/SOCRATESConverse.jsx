@@ -124,42 +124,6 @@ export const SOCRATESConverse = () => {
     handleAnswerReceived(option, 'touch');
   };
 
-  const handleAnswerReceived = async (answerText, mode = 'touch') => {
-    const qId = currentQuestion ? currentQuestion.id : 'q_complaint';
-    const qText = currentQuestion ? currentQuestion.questionText : t('whatBothering');
-    
-    // Call Digital India Bhashini NMT Engine
-    let translatedClinical = answerText;
-    try {
-      const bhashiniRes = await translateWithBhashini(answerText, selectedLanguage === 'Hindi' ? 'hi' : 'en', 'en');
-      if (bhashiniRes && bhashiniRes.translatedText) {
-        translatedClinical = bhashiniRes.translatedText;
-        setBhashiniTranslation(bhashiniRes);
-      }
-    } catch (e) {
-      console.warn('Bhashini translate error', e);
-    }
-
-    await recordTurn(qId, qText, mode, answerText, translatedClinical);
-
-    // Evaluate Red Flags in background
-    const updatedTurns = [...interviewTurns, { questionId: qId, rawTranscript: answerText, structuredAnswer: translatedClinical }];
-    const redFlagResult = checkRedFlags(selectedComplaint || answerText, updatedTurns);
-
-    if (redFlagResult.isRedFlag) {
-      setRedFlagAlert(redFlagResult);
-    }
-
-    // Advance to next SOCRATES question or move to SCAN screen if done
-    if (currentQuestionIdx < questionSet.length - 1) {
-      setCurrentQuestionIdx(prev => prev + 1);
-    } else {
-      // Completed all questions in tree
-      speakText(selectedLanguage === 'Hindi' ? 'धन्यवाद! आपका चिकित्सीय इतिहास दर्ज कर लिया गया है।' : 'Thank you! Clinical history recorded.', selectedLanguage === 'Hindi' ? 'hi-IN' : 'en-IN');
-      nextStep();
-    }
-  };
-
   const recordTurn = async (questionId, questionText, inputMode, rawTranscript, structuredAnswer) => {
     const newTurn = {
       sessionId: patientSession?.sessionId || 'SESS-PAT-1001',
@@ -171,7 +135,8 @@ export const SOCRATESConverse = () => {
       timestamp: new Date().toISOString()
     };
 
-    setInterviewTurns(prev => [...prev, newTurn]);
+    const nextTurns = [...interviewTurns, newTurn];
+    setInterviewTurns(nextTurns);
 
     if (patientSession?.sessionId) {
       try {
@@ -179,6 +144,40 @@ export const SOCRATESConverse = () => {
       } catch (err) {
         console.error('Failed to post turn to server', err);
       }
+    }
+
+    return nextTurns;
+  };
+
+  const handleAnswerReceived = async (answerText, mode = 'touch') => {
+    const qId = currentQuestion ? currentQuestion.id : 'q_complaint';
+    const qText = currentQuestion ? currentQuestion.questionText : t('whatBothering');
+
+    let translatedClinical = answerText;
+    try {
+      const bhashiniRes = await translateWithBhashini(answerText, selectedLanguage === 'Hindi' ? 'hi' : 'en', 'en');
+      if (bhashiniRes && bhashiniRes.translatedText) {
+        translatedClinical = bhashiniRes.translatedText;
+        setBhashiniTranslation(bhashiniRes);
+      }
+    } catch (e) {
+      console.warn('Bhashini translate error', e);
+    }
+
+    const nextTurns = await recordTurn(qId, qText, mode, answerText, translatedClinical);
+    const redFlagResult = checkRedFlags(selectedComplaint || answerText, nextTurns);
+
+    if (redFlagResult.isRedFlag) {
+      setRedFlagAlert(redFlagResult);
+    } else {
+      setRedFlagAlert(null);
+    }
+
+    if (currentQuestionIdx < questionSet.length - 1) {
+      setCurrentQuestionIdx(prev => prev + 1);
+    } else {
+      speakText(selectedLanguage === 'Hindi' ? 'धन्यवाद! आपका चिकित्सीय इतिहास दर्ज कर लिया गया है।' : 'Thank you! Clinical history recorded.', selectedLanguage === 'Hindi' ? 'hi-IN' : 'en-IN');
+      nextStep();
     }
   };
 

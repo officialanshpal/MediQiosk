@@ -8,8 +8,8 @@ export const requestInterceptor = (req, res, next) => {
   });
 
   // Standardize Response Headers
-  res.setHeader('X-MediKiosk-Version', '2.0-Hackathon-Prototype');
-  res.setHeader('X-Powered-By', 'MediKiosk Engine');
+  res.setHeader('X-MediQiosk-Version', '2.0-Hackathon-Prototype');
+  res.setHeader('X-Powered-By', 'MediQiosk Engine');
 
   next();
 };

@@ -5,7 +5,7 @@ export const schedulerService = {
   intervalId: null,
 
   startScheduler(intervalMs = 30000) {
-    console.log(`[BACKGROUND SCHEDULER] Started MediKiosk cron task runner (Interval: ${intervalMs}ms)...`);
+    console.log(`[BACKGROUND SCHEDULER] Started MediQiosk cron task runner (Interval: ${intervalMs}ms)...`);
     
     this.intervalId = setInterval(() => {
       this.runPeriodicTasks();

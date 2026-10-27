@@ -1,5 +1,5 @@
 /**
- * Database Layer & Connection Pool Simulation for MediKiosk
+ * Database Layer & Connection Pool Simulation for MediQiosk
  * 
  * Supports:
  * 1. Primary document collections
@@ -114,7 +114,7 @@ const seedDatabase = () => {
   collections.summaries.set(seedSessionId, mockSummary);
   collections.summaryMeta.set(seedSessionId, {
     sessionId: seedSessionId,
-    generatedBy: 'MediKiosk Rule-Engine v1.2',
+    generatedBy: 'MediQiosk Rule-Engine v1.2',
     inputTurnCount: 4,
     ocrDocCount: 2
   });

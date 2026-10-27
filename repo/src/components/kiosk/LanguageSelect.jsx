@@ -24,7 +24,7 @@ export const LanguageSelect = () => {
     // Read welcome audio prompt on mount in selected language
     const welcomeMsg = selectedLanguage === 'Hindi' 
       ? 'मेडीकियोस्क में आपका स्वागत है। शुरू करने के लिए अपनी भाषा चुनें।' 
-      : 'Welcome to MediKiosk. Please select your language to begin.';
+      : 'Welcome to MediQiosk. Please select your language to begin.';
     speakText(welcomeMsg, selectedLanguage);
   }, [selectedLanguage]);
 

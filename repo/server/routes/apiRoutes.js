@@ -16,7 +16,7 @@ router.use(authGuard);
 router.get('/health', (req, res) => {
   res.json({
     status: 'OK',
-    app: 'MediKiosk Engine Server',
+    app: 'MediQiosk Engine Server',
     timestamp: new Date().toISOString()
   });
 });

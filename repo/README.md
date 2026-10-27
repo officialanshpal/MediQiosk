@@ -1,8 +1,8 @@
-# MediKiosk — AI-Powered Clinical History & Document Digitization Kiosk
+# MediQiosk — AI-Powered Clinical History & Document Digitization Kiosk
 
 > **Self-Service Multilingual Kiosk for Indian Hospital OPDs (SIH Prototype)**
 
-MediKiosk allows patients, before seeing an OPD doctor, to record their medical history through an intuitive voice + touch interview and digitize old medical documents (prescriptions, lab reports). It produces a structured, physician-ready clinical summary, detects emergency red flags in real-time, supports both Allopathic and AYUSH clinical pathways, and demonstrates automatic post-consultation data privacy clearing.
+MediQiosk allows patients, before seeing an OPD doctor, to record their medical history through an intuitive voice + touch interview and digitize old medical documents (prescriptions, lab reports). It produces a structured, physician-ready clinical summary, detects emergency red flags in real-time, supports both Allopathic and AYUSH clinical pathways, and demonstrates automatic post-consultation data privacy clearing.
 
 ---
 

@@ -1,7 +1,7 @@
 {
-  "name": "medikiosk-sih",
+  "name": "mediQiosk-sih",
   "version": "1.0.0",
-  "description": "MediKiosk — AI-Powered Clinical History & Document Digitization Kiosk",
+  "description": "MediQiosk — AI-Powered Clinical History & Document Digitization Kiosk",
   "main": "server/server.js",
   "type": "module",
   "scripts": {
@@ -12,7 +12,7 @@
     "dev": "concurrently \"node server/server.js\" \"vite\""
   },
   "keywords": [
-    "medikiosk",
+    "mediQiosk",
     "sih2026",
     "opd",
     "kiosk",
@@ -22,7 +22,7 @@
     "triage",
     "ayush"
   ],
-  "author": "MediKiosk Team",
+  "author": "MediQiosk Team",
   "license": "MIT",
   "dependencies": {
     "express": "^4.19.2",

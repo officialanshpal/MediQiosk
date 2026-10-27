@@ -1,12 +1,12 @@
 /**
- * Complete UI Translation Dictionary for MediKiosk
+ * Complete UI Translation Dictionary for MediQiosk
  * Provides 100% full localization for Hindi, English, Bhojpuri, Marathi, Gujarati, Bengali, Tamil, and Telugu.
  */
 
 export const translations = {
   English: {
     // Header & Navigation
-    appTitle: "MediKiosk",
+    appTitle: "MediQiosk",
     opdSubtitle: "OPD Self-Service",
     appDesc: "AI Clinical Triage & Document Digitization",
     switchAyush: "Switch to AYUSH",
@@ -55,7 +55,7 @@ export const translations = {
     playConsent: "Play Consent",
     pauseAudio: "Pause Audio",
     toggle1Label: "1. Share Voice Symptom History",
-    toggle1Desc: "Allows MediKiosk to record audio transcript during clinical interview.",
+    toggle1Desc: "Allows MediQiosk to record audio transcript during clinical interview.",
     toggle2Label: "2. Share Prior Scanned Documents",
     toggle2Desc: "Allows Tesseract.js OCR to process prescriptions & lab reports.",
     toggle3Label: "3. Link to ABHA Medical Record",
@@ -151,7 +151,7 @@ export const translations = {
 
   Hindi: {
     // Header & Navigation
-    appTitle: "मेडीकियोस्क (MediKiosk)",
+    appTitle: "मेडीकियोस्क (MediQiosk)",
     opdSubtitle: "ओपीडी स्व-सेवा",
     appDesc: "एआई मेडिकल इतिहास और दस्तावेज़ डिजिटलीकरण",
     switchAyush: "आयुष मोड (AYUSH)",
@@ -295,7 +295,7 @@ export const translations = {
   },
 
   Bhojpuri: {
-    appTitle: "मेडीकियोस्क (MediKiosk)",
+    appTitle: "मेडीकियोस्क (MediQiosk)",
     opdSubtitle: "ओपीडी स्व-सेवा",
     appDesc: "एआई मेडिकल इतिहास और दस्तावेज डिजिटलीकरण",
     switchAyush: "आयुष मोड",
@@ -389,7 +389,7 @@ export const translations = {
   },
 
   Marathi: {
-    appTitle: "मेडीकियोस्क (MediKiosk)",
+    appTitle: "मेडीकियोस्क (MediQiosk)",
     opdSubtitle: "ओपीडी स्व-सेवा",
     appDesc: "एआय वैद्यकीय इतिहास आणि दस्तऐवज डिजिटायझेशन",
     switchAyush: "आयुष मोड",
@@ -483,7 +483,7 @@ export const translations = {
   },
 
   Gujarati: {
-    appTitle: "મેડીકિયોસ્ક (MediKiosk)",
+    appTitle: "મેડીકિયોસ્ક (MediQiosk)",
     opdSubtitle: "ઓપીડી સ્વ-સેવા",
     appDesc: "એઆઈ તબીબી ઇતિહાસ અને દસ્તાવેજ ડિજિટાઇઝેશન",
     switchAyush: "આયુષ મોડ",
@@ -577,7 +577,7 @@ export const translations = {
   },
 
   Bengali: {
-    appTitle: "মেডিকিয়োস্ক (MediKiosk)",
+    appTitle: "মেডিকিয়োস্ক (MediQiosk)",
     opdSubtitle: "ওপিডি স্ব-সেবা",
     appDesc: "এআই চিকিৎসা ইতিহাস ও নথি ডিজিটালকরণ",
     switchAyush: "আয়ুষ মোড",
@@ -671,7 +671,7 @@ export const translations = {
   },
 
   Tamil: {
-    appTitle: "மெடிகியோஸ்க் (MediKiosk)",
+    appTitle: "மெடிகியோஸ்க் (MediQiosk)",
     opdSubtitle: "சுய சேவை",
     appDesc: "AI மருத்துவ வரலாறு மற்றும் ஆவண டிஜிட்டல் மயமாக்கல்",
     switchAyush: "ஆயுஷ் முறை",
@@ -765,7 +765,7 @@ export const translations = {
   },
 
   Telugu: {
-    appTitle: "మెడికియోస్క్ (MediKiosk)",
+    appTitle: "మెడికియోస్క్ (MediQiosk)",
     opdSubtitle: "ఓపిడి స్వయం సేవ",
     appDesc: "AI వైద్య చరిత్ర మరియు పత్రాల డిజిటైజేషన్",
     switchAyush: "ఆయుష్ విధానం",

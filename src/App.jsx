@@ -24,8 +24,7 @@ const AppContent = () => {
   const isKioskFlow = ['language', 'identify', 'consent', 'converse', 'scan', 'confirm'].includes(currentScreen);
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
-      {/* Top Kiosk Header */}
+    <div className="min-h-screen flex flex-col app-shell text-slate-800">
       <KioskHeader
         currentScreen={currentScreen}
         onReset={resetSession}
@@ -35,11 +34,9 @@ const AppContent = () => {
         onToggleAyush={() => setIsAyush(!isAyush)}
       />
 
-      {/* Step Progress Bar for 6 Kiosk screens */}
       {isKioskFlow && <StepProgress currentStepIndex={getStepIndex()} />}
 
-      {/* Main Screen Router Render */}
-      <main className="flex-1 pb-16">
+      <main className="flex-1 pb-10">
         {currentScreen === 'language' && <LanguageSelect />}
         {currentScreen === 'identify' && <IdentifyPatient />}
         {currentScreen === 'consent' && <AudioConsent />}
@@ -50,16 +47,13 @@ const AppContent = () => {
         {currentScreen === 'staff' && <StaffDashboard />}
       </main>
 
-      {/* Footer Banner - Hackathon Mocked vs Real Legend */}
-      <footer className="bg-slate-900/90 border-t border-slate-800 p-4 text-center text-xs text-slate-400">
-        <div className="max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          <span>
-            <strong className="text-emerald-400">REAL:</strong> Web Speech API, Tesseract.js OCR, Regex Dosage Parser, SOCRATES/AYUSH Tree
-          </span>
-          <span>
-            <strong className="text-amber-400">MOCKED:</strong> ABHA Auth Login, FHIR Payload, HIS System Push
-          </span>
-          <span className="font-mono text-slate-500">MediKiosk v2.0 OPD Kiosk</span>
+      <footer className="border-t border-slate-200 bg-white px-4 py-3 text-center text-[11px] text-slate-500">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-3">
+          <span>MediQiosk</span>
+          <span className="hidden sm:inline">•</span>
+          <span>OPD record intake</span>
+          <span className="hidden sm:inline">•</span>
+          <span>Multilingual care workflow</span>
         </div>
       </footer>
     </div>

@@ -87,7 +87,7 @@ let patientDatabase = [
 
 // 1. Health Check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'MediKiosk Engine Server Operational', timestamp: new Date() });
+  res.json({ status: 'OK', message: 'MediQiosk Engine Server Operational', timestamp: new Date() });
 });
 
 // 2. ABHA Authentication Simulator
@@ -111,7 +111,7 @@ app.post('/api/triage/voice', (req, res) => {
   const { dialect, audioTranscript } = req.body;
   
   // Simulated NLP Dialect Translation Dictionary
-  let clinicalTranslation = "Symptom captured and processed by MediKiosk AI Speech Engine.";
+  let clinicalTranslation = "Symptom captured and processed by MediQiosk AI Speech Engine.";
   let stress = "Normal";
 
   if (audioTranscript && audioTranscript.toLowerCase().includes('dard')) {
@@ -174,5 +174,5 @@ app.get('/api/doctor/patients', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`MediKiosk SIH Backend Server running on http://localhost:${PORT}`);
+  console.log(`MediQiosk SIH Backend Server running on http://localhost:${PORT}`);
 });

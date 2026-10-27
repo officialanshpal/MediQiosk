@@ -59,7 +59,7 @@ const AppContent = () => {
           <span>
             <strong className="text-amber-400">MOCKED:</strong> ABHA Auth Login, FHIR Payload, HIS System Push
           </span>
-          <span className="font-mono text-slate-500">MediKiosk v2.0 OPD Kiosk</span>
+          <span className="font-mono text-slate-500">MediQiosk v2.0 OPD Kiosk</span>
         </div>
       </footer>
     </div>

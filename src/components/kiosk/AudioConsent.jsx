@@ -8,14 +8,16 @@ import { api } from '../../services/apiService';
 import { ShieldCheck, Volume2, CheckCircle, XCircle, Play, Square } from 'lucide-react';
 
 export const AudioConsent = () => {
-  const { patientSession, setPatientSession, nextStep, resetSession, selectedLanguage } = useKiosk();
+  const {
+    patientSession,
+    setPatientSession,
+    consentFlags: toggles,
+    setConsentFlags: setToggles,
+    nextStep,
+    resetSession,
+    selectedLanguage
+  } = useKiosk();
   const t = (key) => getTranslation(selectedLanguage, key);
-
-  const [toggles, setToggles] = useState({
-    shareVoice: false,
-    shareDocs: false,
-    linkAbha: false
-  });
 
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 

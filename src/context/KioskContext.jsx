@@ -4,6 +4,7 @@ import { stopSpeech } from '../utils/speechUtils';
 
 const KioskContext = createContext();
 const STORAGE_KEY = 'mediQiosk_session_state';
+const DEFAULT_CONSENT_FLAGS = { shareVoice: false, shareDocs: false, linkAbha: false };
 
 const getStoredState = () => {
   try {
@@ -21,6 +22,7 @@ export const KioskProvider = ({ children }) => {
   const [selectedLanguage, setSelectedLanguage] = useState('Hindi');
   const [isAyush, setIsAyush] = useState(false);
   const [patientSession, setPatientSession] = useState(null);
+  const [consentFlags, setConsentFlags] = useState(DEFAULT_CONSENT_FLAGS);
   const [interviewTurns, setInterviewTurns] = useState([]);
   const [scannedDocs, setScannedDocs] = useState([]);
   const [redFlagAlert, setRedFlagAlert] = useState(null);
@@ -34,6 +36,7 @@ export const KioskProvider = ({ children }) => {
     if (storedState.isAyush !== undefined) setIsAyush(Boolean(storedState.isAyush));
     if (storedState.currentScreen) setCurrentScreen(storedState.currentScreen);
     if (storedState.patientSession) setPatientSession(storedState.patientSession);
+    if (storedState.consentFlags) setConsentFlags(storedState.consentFlags);
     if (storedState.interviewTurns) setInterviewTurns(storedState.interviewTurns);
     if (storedState.scannedDocs) setScannedDocs(storedState.scannedDocs);
     if (storedState.redFlagAlert) setRedFlagAlert(storedState.redFlagAlert);
@@ -50,6 +53,7 @@ export const KioskProvider = ({ children }) => {
       selectedLanguage,
       isAyush,
       patientSession,
+      consentFlags,
       interviewTurns,
       scannedDocs,
       redFlagAlert,
@@ -57,7 +61,7 @@ export const KioskProvider = ({ children }) => {
     };
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  }, [currentScreen, selectedLanguage, isAyush, patientSession, interviewTurns, scannedDocs, redFlagAlert, structuredSummary]);
+  }, [currentScreen, selectedLanguage, isAyush, patientSession, consentFlags, interviewTurns, scannedDocs, redFlagAlert, structuredSummary]);
 
   const screenOrder = ['language', 'identify', 'consent', 'converse', 'scan', 'confirm'];
 
@@ -90,6 +94,7 @@ export const KioskProvider = ({ children }) => {
     stopSpeech();
     api.setSessionId(null);
     setPatientSession(null);
+    setConsentFlags(DEFAULT_CONSENT_FLAGS);
     setInterviewTurns([]);
     setScannedDocs([]);
     setRedFlagAlert(null);
@@ -110,6 +115,8 @@ export const KioskProvider = ({ children }) => {
         setIsAyush,
         patientSession,
         setPatientSession,
+        consentFlags,
+        setConsentFlags,
         interviewTurns,
         setInterviewTurns,
         scannedDocs,

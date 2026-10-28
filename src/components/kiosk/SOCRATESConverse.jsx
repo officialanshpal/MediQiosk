@@ -27,7 +27,10 @@ export const SOCRATESConverse = () => {
   const t = (key) => getTranslation(selectedLanguage, key);
 
   // Selected chief complaint
-  const [selectedComplaint, setSelectedComplaint] = useState(null);
+  const savedComplaint = interviewTurns.find(turn => turn.questionId === 'q_complaint');
+  const [selectedComplaint, setSelectedComplaint] = useState(
+    savedComplaint?.structuredAnswer || savedComplaint?.rawTranscript || null
+  );
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
 
   // Audio / Speech State
@@ -135,7 +138,10 @@ export const SOCRATESConverse = () => {
       timestamp: new Date().toISOString()
     };
 
-    const nextTurns = [...interviewTurns, newTurn];
+    const existingTurnIndex = interviewTurns.findIndex(turn => turn.questionId === questionId);
+    const nextTurns = existingTurnIndex === -1
+      ? [...interviewTurns, newTurn]
+      : interviewTurns.map((turn, index) => index === existingTurnIndex ? newTurn : turn);
     setInterviewTurns(nextTurns);
 
     if (patientSession?.sessionId) {

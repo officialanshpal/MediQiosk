@@ -5,6 +5,28 @@ export const interviewTurnRepository = {
   async saveTurn(turnData) {
     const conn = await dbManager.pool.acquire();
     try {
+      const existingTurns = dbManager.indexes.turnsBySession.get(turnData.sessionId) || [];
+      const existingTurnId = existingTurns.find(id => {
+        const turn = dbManager.collections.interviewTurns.get(id);
+        return turn?.questionId === turnData.questionId;
+      });
+
+      if (existingTurnId) {
+        const record = {
+          ...dbManager.collections.interviewTurns.get(existingTurnId),
+          ...turnData,
+          turnId: existingTurnId,
+          inputMode: turnData.inputMode || 'touch',
+          rawTranscript: turnData.rawTranscript || '',
+          structuredAnswer: turnData.structuredAnswer || '',
+          timestamp: new Date().toISOString()
+        };
+        dbManager.collections.interviewTurns.set(existingTurnId, record);
+        const metadata = dbManager.collections.interviewTurnMeta.get(existingTurnId) || {};
+        dbManager.collections.interviewTurnMeta.set(existingTurnId, { ...metadata, isEdited: true });
+        return record;
+      }
+
       const turnId = `TURN-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
       const record = {
         turnId,
@@ -19,8 +41,6 @@ export const interviewTurnRepository = {
 
       dbManager.collections.interviewTurns.set(turnId, record);
 
-      // Secondary Index update
-      const existingTurns = dbManager.indexes.turnsBySession.get(turnData.sessionId) || [];
       existingTurns.push(turnId);
       dbManager.indexes.turnsBySession.set(turnData.sessionId, existingTurns);
 

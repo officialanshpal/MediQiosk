@@ -8,15 +8,15 @@ import { getTranslation } from '../../utils/translations';
 import { UserCheck, QrCode, UserPlus, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export const IdentifyPatient = () => {
-  const { setPatientSession, nextStep, isAyush, setIsAyush, selectedLanguage } = useKiosk();
+  const { patientSession, setPatientSession, nextStep, isAyush, setIsAyush, selectedLanguage } = useKiosk();
   const t = (key) => getTranslation(selectedLanguage, key);
 
-  const [activeTab, setActiveTab] = useState('abha'); // 'abha' | 'register'
-  const [abhaIdInput, setAbhaIdInput] = useState('91-8492-3849-1029');
+  const [activeTab, setActiveTab] = useState(patientSession?.abhaId ? 'abha' : 'register'); // 'abha' | 'register'
+  const [abhaIdInput, setAbhaIdInput] = useState(patientSession?.abhaId || '91-8492-3849-1029');
   const [registerData, setRegisterData] = useState({
-    patientName: selectedLanguage === 'Hindi' ? 'रामेश्वर महतो' : 'Rameshwar Mahto',
-    age: '52',
-    gender: 'Male'
+    patientName: patientSession?.patientName || (selectedLanguage === 'Hindi' ? 'रामेश्वर महतो' : 'Rameshwar Mahto'),
+    age: String(patientSession?.age || 52),
+    gender: patientSession?.gender || 'Male'
   });
   const [isLoading, setIsLoading] = useState(false);
 

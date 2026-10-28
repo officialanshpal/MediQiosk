@@ -18,8 +18,8 @@ export const StepProgress = ({ currentStepIndex }) => {
   ];
 
   return (
-    <div className="border-b border-slate-200 bg-white px-4 py-3">
-      <div className="mx-auto flex max-w-6xl items-center gap-4">
+    <div className="border-b border-slate-200/80 bg-white/80 px-4 py-3 backdrop-blur md:px-8">
+      <div className="mx-auto flex max-w-[1600px] items-center gap-4">
         <button
           type="button"
           onClick={prevStep}

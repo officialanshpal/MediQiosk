@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-slate-100 text-slate-800 font-sans antialiased;
+    @apply bg-slate-50 text-slate-800 font-sans antialiased;
   }
 
   * {
@@ -13,7 +13,10 @@
 }
 
 .app-shell {
-  background: #f8fafc;
+  background:
+    radial-gradient(ellipse at 12% 18%, rgba(186, 230, 253, 0.3), transparent 34rem),
+    radial-gradient(ellipse at 90% 62%, rgba(199, 210, 254, 0.2), transparent 34rem),
+    #f6f9fc;
 }
 
 .kiosk-btn {

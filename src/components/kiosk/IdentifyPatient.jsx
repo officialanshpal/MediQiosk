@@ -120,7 +120,7 @@ export const IdentifyPatient = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4 md:p-8 animate-fadeIn">
+    <div className="w-full min-w-0 animate-fadeIn">
       <CommonCard
         title={t('identifyTitle')}
         subtitle={t('identifySubtitle')}

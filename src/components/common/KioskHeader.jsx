@@ -9,7 +9,7 @@ export const KioskHeader = ({ currentScreen, onReset, onNavigateDoctor, onNaviga
 
   return (
     <header className="border-b border-slate-200 bg-white/90 p-4 md:px-8 sticky top-0 z-50 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
+      <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3 cursor-pointer" onClick={onReset}>
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-100 text-sky-600">
             <Stethoscope className="w-6 h-6" />
